@@ -6,6 +6,8 @@ venv/
 ENV/
 .vscode/*
 
+c100/*.png
+
 #!.vscode/settings.json
 #!.vscode/tasks.json
 #!.vscode/launch.json
