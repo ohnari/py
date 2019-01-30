@@ -1,20 +1,4 @@
 
-'''
-NariPairsList = {
-    'uj': {'symbol': 'USDJPY', 'fdig': 3},
-    'ej': {'symbol': 'EURJPY', 'fdig': 3},
-    'gj': {'symbol': 'GBPJPY', 'fdig': 3},
-    'aj': {'symbol': 'AUDJPY', 'fdig': 3},
-    'zj': {'symbol': 'NZDJPY', 'fdig': 3},
-    'cj': {'symbol': 'CADJPY', 'fdig': 3},
-    'eu': {'symbol': 'EURUSD', 'fdig': 5},
-    'gu': {'symbol': 'GBPUSD', 'fdig': 5},
-    'au': {'symbol': 'AUDUSD', 'fdig': 5},
-    'nu': {'symbol': 'NZDUSD', 'fdig': 5},
-    'uc': {'symbol': 'USDCAD', 'fdig': 5},
-    'ea': {'symbol': 'EURAUD', 'fdig': 5}
- }
-'''
 NariPairsList = [
     {'code': 'uj', 'symbol': 'USDJPY', 'fdig': 3},
     {'code': 'ej', 'symbol': 'EURJPY', 'fdig': 3},

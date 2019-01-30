@@ -4,7 +4,7 @@
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import sys
-import NariPairs
+from lib import NariPairs
 import ForexDataClient
 
 xlim = [0, 180]
