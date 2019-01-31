@@ -5,7 +5,7 @@ env/
 venv/
 ENV/
 .vscode/*
-
+*/__pycache__/*
 c100/*.png
 
 #!.vscode/settings.json

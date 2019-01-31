@@ -4,6 +4,7 @@ import datetime
 
 PING_BASE = 'chg100'
 
+PairLabel = ['S', 'G', 'D']
 
 def readCsv():
     data = pd.read_csv('c.csv', index_col='DATE')
@@ -27,7 +28,11 @@ def myPlot(df, x):
     plt.plot(df.index, df['D'], 'y', label='D')
     plt.legend()
 
-    title = "{:,}".format(df.iloc[-1]['T'])
+    now_S = "{:,}".format(df.iloc[-1]['S'])
+    now_G = "{:,}".format(df.iloc[-1]['G'])
+    now_D = "{:,}".format(df.iloc[-1]['D'])
+    now_T = "{:,}".format(df.iloc[-1]['T'])
+    title = f"T:{now_T} (S:{now_S} G:{now_G} D:{now_D})"
     plt.title(title)
     plt.savefig(PING_BASE + str(datetime.date.today()) + '.png')
     plt.show()
