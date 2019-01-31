@@ -9,8 +9,9 @@ PairColor = ['r', 'g', 'b']
 Index = 'DATE'
 CsvFile = 'c.csv'
 
+
 class ReadCsv:
-    def __init__(self,file):
+    def __init__(self, file):
         cols = [Index]
         for l in PairLabel:
             cols.append(l+'x')
@@ -22,37 +23,40 @@ class ReadCsv:
 
     def getData(self):
         return self.data
-    
+
     def getIndex(self):
         return self.data.index
-    
+
     def getColumns(self):
         return self.data.columns
-    
+
     def getShape(self):
         return self.data.shape
 
-def myPlot(df, x):
-    fig, ax1 = plt.subplots(figsize=(10, 4))
-    ax1.set_xticklabels(x, rotation=90, size="small")
 
-    plt.bar(df.index, df['T'], color = 'c', label='T', align='center')
-    plt.legend(loc=4)
+def myPlot(df, x):
+    t = []
+    fig, ax1 = plt.subplots(figsize=(10, 4))
+
+    ax1.set_xticklabels(x, rotation=90, size="small")
+    plt.bar(df.index, df['T'], color='c', label='T', align='center')
+    plt.legend(loc='upper left')
 
     ax2 = ax1.twinx()
     ax2.set_xticklabels(x, rotation=90, size="small")
-
-    t=[]
     for i, j in enumerate(PairLabel):
-        plt.plot(df.index, df[j], PairColor[i], label=j)
-        t.append(j + ':' + "{:,}".format(df.iloc[-1][j]))
-    plt.legend()
+        lv = j + ':' + "{:,}".format(df.iloc[-1][j])
+        plt.plot(df.index, df[j], PairColor[i], label=lv)
+        t.append(lv)
+    plt.legend(loc='upper right')
+
     ti = ' '.join(t)
     tb = "{:,}".format(df.iloc[-1]['T'])
     title = f"T:{tb} ({ti})"
     plt.title(title)
     plt.savefig(PING_BASE + str(datetime.date.today()) + '.png')
     plt.show()
+
 
 data = ReadCsv(CsvFile)
 df = data.getData().iloc[:, -len(PairLabel)-1:]
