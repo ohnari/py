@@ -5,39 +5,56 @@ import datetime
 PING_BASE = 'chg100'
 
 PairLabel = ['S', 'G', 'D']
+PairColor = ['r', 'g', 'b']
+Index = 'DATE'
+CsvFile = 'c.csv'
 
-def readCsv():
-    data = pd.read_csv('c.csv', index_col='DATE')
-    data['S'] = data['S_'] - data['S_F']
-    data['G'] = data['G_'] - data['G_F']
-    data['D'] = data['D_'] - data['D_F']
-    data['T'] = data[['S', 'G', 'D']].sum(axis=1)
-    return data
+class ReadCsv:
+    def __init__(self,file):
+        cols = [Index]
+        for l in PairLabel:
+            cols.append(l+'x')
+            cols.append(l+'y')
+        self.data = pd.read_csv(file, index_col=Index, skiprows=1, names=cols)
+        for i, j in enumerate(PairLabel):
+            self.data[j] = self.data[cols[i*2+1]]-self.data[cols[i*2+2]]
+        self.data['T'] = self.data[PairLabel].sum(axis=1)
 
+    def getData(self):
+        return self.data
+    
+    def getIndex(self):
+        return self.data.index
+    
+    def getColumns(self):
+        return self.data.columns
+    
+    def getShape(self):
+        return self.data.shape
 
 def myPlot(df, x):
     fig, ax1 = plt.subplots(figsize=(10, 4))
     ax1.set_xticklabels(x, rotation=90, size="small")
-    plt.bar(df.index, df['T'], label='Total', align='center')
+
+    plt.bar(df.index, df['T'], color = 'c', label='T', align='center')
     plt.legend(loc=4)
 
     ax2 = ax1.twinx()
     ax2.set_xticklabels(x, rotation=90, size="small")
-    plt.plot(df.index, df['S'], 'b', label='S')
-    plt.plot(df.index, df['G'], 'g', label='G')
-    plt.plot(df.index, df['D'], 'y', label='D')
-    plt.legend()
 
-    now_S = "{:,}".format(df.iloc[-1]['S'])
-    now_G = "{:,}".format(df.iloc[-1]['G'])
-    now_D = "{:,}".format(df.iloc[-1]['D'])
-    now_T = "{:,}".format(df.iloc[-1]['T'])
-    title = f"T:{now_T} (S:{now_S} G:{now_G} D:{now_D})"
+    t=[]
+    for i, j in enumerate(PairLabel):
+        plt.plot(df.index, df[j], PairColor[i], label=j)
+        t.append(j + ':' + "{:,}".format(df.iloc[-1][j]))
+    plt.legend()
+    ti = ' '.join(t)
+    tb = "{:,}".format(df.iloc[-1]['T'])
+    title = f"T:{tb} ({ti})"
     plt.title(title)
     plt.savefig(PING_BASE + str(datetime.date.today()) + '.png')
     plt.show()
 
-
-df = readCsv().loc[:, ['S', 'G', 'D', 'T']]
-ax = readCsv().index
+data = ReadCsv(CsvFile)
+df = data.getData().iloc[:, -len(PairLabel)-1:]
+ax = data.getIndex()
 myPlot(df, ax)
