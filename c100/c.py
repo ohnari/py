@@ -1,14 +1,16 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import datetime
+import os
 
 PNG_BASE = 'chg100'
-
 PairLabel = ['S', 'G', 'D']
 PairColor = ['r', 'g', 'b']
 Index = 'DATE'
-CsvFile = 'c.csv'
+CsvFilePub = 'C:\\Users\\onari.tetsuya\\Dropbox\\hellopy\\c100\\c.csv'
+CsvFileHome = 'Dropbox/\\hellopy\\c100\\c.csv'
 
+CsvFile = CsvFilePub if (os.path.exists(CsvFilePub)) else CsvFileHome
 
 class ReadCsv:
     def __init__(self, file):
