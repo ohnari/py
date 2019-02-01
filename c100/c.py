@@ -4,13 +4,14 @@ import datetime
 import os
 
 PNG_BASE = 'chg100'
-PairLabel = ['S', 'G', 'D']
-PairColor = ['r', 'g', 'b']
+PairLabel = ['S', 'G', 'D', 'X']
+PairColor = ['r', 'g', 'b', 'Y']
 Index = 'DATE'
 CsvFilePub = 'C:\\Users\\onari.tetsuya\\Dropbox\\hellopy\\c100\\c.csv'
-CsvFileHome = 'Dropbox/\\hellopy\\c100\\c.csv'
+CsvFileHome = '/home/nari/Dropbox/hellopy/c100/c.csv'
 
 CsvFile = CsvFilePub if (os.path.exists(CsvFilePub)) else CsvFileHome
+
 
 class ReadCsv:
     def __init__(self, file):
@@ -64,7 +65,7 @@ def myPlot(df, x):
 
     ti = ' '.join(t)
     tb = "{:,}".format(df.iloc[-1]['T'])
-    title = f"T:{tb} ({ti})"
+    title = 'T:{x} ({y})'.format(x=tb, y=ti)
     plt.title(title)
     plt.savefig(PNG_BASE + str(datetime.date.today()) + '.png')
     plt.show()
