@@ -3,14 +3,17 @@ import matplotlib.pyplot as plt
 import datetime
 import os
 
-PNG_BASE = 'chg100'
+PNG_BASE = '_chg100.png'
+CSV_BASE = 'c.csv'
 PairLabel = ['S', 'G', 'D', 'X']
 PairColor = ['r', 'g', 'b', 'Y']
 Index = 'DATE'
-CsvFilePub = 'C:\\Users\\onari.tetsuya\\Dropbox\\hellopy\\c100\\c.csv'
-CsvFileHome = '/home/nari/Dropbox/hellopy/c100/c.csv'
+PathPub = 'C:\\Users\\onari.tetsuya\\Dropbox\\hellopy\\c100\\'
+PathHome = '/home/nari/Dropbox/hellopy/c100/'
 
-CsvFile = CsvFilePub if (os.path.exists(CsvFilePub)) else CsvFileHome
+Path = PathPub if (os.path.exists(PathPub)) else PathHome
+CsvFile = Path + CSV_BASE
+PngFile = Path + str(datetime.date.today()) + PNG_BASE
 
 
 class ReadCsv:
@@ -20,7 +23,7 @@ class ReadCsv:
             cols.append(l+'x')
             cols.append(l+'y')
         self.orgData = pd.read_csv(
-            file, index_col=Index, skiprows=1, names=cols)
+            file, index_col=Index, skiprows=1, names=cols).dropna(how='any')
         self.data = pd.DataFrame(index=self.orgData.index, columns=PairLabel)
 
     def getOrgData(self):
@@ -67,7 +70,7 @@ def myPlot(df, x):
     tb = "{:,}".format(df.iloc[-1]['T'])
     title = 'T:{x} ({y})'.format(x=tb, y=ti)
     plt.title(title)
-    plt.savefig(PNG_BASE + str(datetime.date.today()) + '.png')
+    plt.savefig(PngFile)
     plt.show()
 
 
