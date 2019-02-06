@@ -56,7 +56,7 @@ def myPlot(df, x):
     ax1.set_xticklabels(x, rotation=90, size="small")
     lv = 'T:' + "{:,}".format(df.iloc[-1]['T'])
     plt.bar(df.index, df['T'], color='c', label=lv, align='center')
-    plt.legend(loc='upper left')
+    plt.legend(loc='lower left')
 
     ax2 = ax1.twinx()
     ax2.set_xticklabels(x, rotation=90, size="small")
@@ -64,7 +64,7 @@ def myPlot(df, x):
         lv = j + ':' + "{:,}".format(df.iloc[-1][j])
         plt.plot(df.index, df[j], PairColor[i], label=lv)
         t.append(lv)
-    plt.legend(loc='upper right')
+    plt.legend(loc='upper left')
 
     ti = ' '.join(t)
     tb = "{:,}".format(df.iloc[-1]['T'])
