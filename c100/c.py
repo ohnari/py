@@ -8,7 +8,8 @@ CSV_BASE = 'c.csv'
 PairLabel = ['S', 'G', 'D', 'X']
 PairColor = ['r', 'g', 'b', 'Y']
 Index = 'DATE'
-PathPub = 'C:\\Users\\onari.tetsuya\\Dropbox\\hellopy\\c100\\'
+PathPub = 'G:\\マイドライブ\\c100\\'
+#PathPub = 'C:\\Users\\onari.tetsuya\\Dropbox\\hellopy\\c100\\'
 PathHome = '/home/nari/Dropbox/hellopy/c100/'
 
 Path = PathPub if (os.path.exists(PathPub)) else PathHome
