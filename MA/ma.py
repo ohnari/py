@@ -30,7 +30,7 @@ def main():
         for pair in pairs:
             res = api_data['quotes'][numbers.index(pair)]['ask']
             ay = np.append(ay, float(res))
-        ema = ta.EMA(ay, timeperiod=5)
+        ema = ta.EMA(ay, timeperiod=21)
         print(ay[-1], ema[-1])
         sleep(60)
 
