@@ -9,8 +9,10 @@ PairLabel = ['S', 'G', 'D', 'X']
 PairColor = ['r', 'g', 'b', 'Y']
 Index = 'DATE'
 PathPub = 'G:\\マイドライブ\\c100\\'
-#PathPub = 'C:\\Users\\onari.tetsuya\\Dropbox\\hellopy\\c100\\'
-PathHome = '/home/nari/Dropbox/hellopy/c100/'
+# PathPub = 'C:\\Users\\onari.tetsuya\\Dropbox\\hellopy\\c100\\'
+PathHome = '/home/nari/GoogleDrive/c100/'
+# PathHome = '/home/nari/Dropbox/hellopy/c100/'
+
 
 Path = PathPub if (os.path.exists(PathPub)) else PathHome
 CsvFile = Path + CSV_BASE
