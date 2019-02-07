@@ -44,6 +44,7 @@ class Application(Tk.Frame):
         self.pack()
         self.pairs = Quotes(pairs)
         self.master = master
+        self.master.title(pairs[0])
         self.create_widgets()
 
     def create_widgets(self):
@@ -55,7 +56,7 @@ class Application(Tk.Frame):
 
     def update_Quote(self):
         self.strval.set(self.pairs.getQuote())
-        self.master.after(1000, self.update_Quote)
+        self.master.after(6000, self.update_Quote)
 
 
 def main():
