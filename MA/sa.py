@@ -1,33 +1,21 @@
-import pandas as pd
-import time
-import matplotlib.pyplot as plt
-import datetime
-import requests
-import json
-import numpy as np
-import talib
+
+class Test():
+    pairs = []
+    cnt = 0
+
+    def __init__(self, ps):
+        self.pairs = ps
+
+    def count_one(self):
+        self.cnt += 1
+        return self.cnt
 
 
-def get_bit():
-    url = ('https://api.coingecko.com/api/v3/coins/') + \
-        str('bitcoin')+('/market_chart?vs_currency=jpy&days=max')
-    r = requests.get(url)
-    r = json.loads(r.text)
-    bitcoin = r['prices']
-    data = []
-    date = []
-    for i in bitcoin:
-        data.append(i[1])
-        date.append(i[0])
-        bit = pd.DataFrame({"date": date, "price": data})
-        price = bit['price']
-        change = price.pct_change()
-        bit = pd.DataFrame({"date": date, "price": data, "change": change})
-    return bit
+def main():
+    a = Test([1, 2])
+    print(a.count_one())
+    print(a.count_one())
 
 
-b = get_bit()
-p = b['price']
-p = np.array(p)
-print(p)
-print(talib.EMA(p, timeperiod=2)[-1])
+if __name__ == '__main__':
+    main()
