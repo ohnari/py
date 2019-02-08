@@ -2,16 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-# from matplotlib import pyplot as plt
-# from matplotlib import animation
 import sys
 from time import sleep
 import requests
 import json
 import NariPairs as na
 import talib as ta
-#from tkinter import *
-#from tkinter import ttk
 import tkinter as Tk
 
 url = "https://www.gaitameonline.com/rateaj/getrate"
