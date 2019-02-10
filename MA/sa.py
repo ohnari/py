@@ -2,17 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+import pandas as pd
 import sys
-from time import sleep
-import requests
-import json
 import NariPairs as na
 import ForexDataClient as fx
 import talib as ta
 import tkinter as Tk
 
 PERIOD_MA = 26
-INTERVAL = 1000
+INTERVAL = 10000
 PERIOD_RCI = 9
 
 
@@ -22,25 +20,26 @@ class Quotes():
         self.quote = np.array([[] for i in range(len(p))])
         self.fx = fx.ForexDataClient()
 
-    def Rci_o(self, seq, idx, itv):
-        p = seq[idx]
-        o = 1
-        for i in range(itv - 1):
-            if p < seq[i]:
-                o += 1
-        return o
+    def getRci(self, seq, itv):
+        # 時間帯の順位作成
+        rank_period = np.arange(itv, 0, -1)
 
-    def Rci_d(self, seq, itv):
-        d = 0
-        for i in range(itv - 1):
-            d += pow((i + 1) - self.Rci_o(seq, i, itv), 2)
-        return d
+        length = len(seq)
+        rci = np.zeros(length)
 
-    def Rci(self, seq, itv):
-        sum = 0
-        if (len(seq) >= itv):
-            sum = (1-6*self.Rci_d(seq, itv) / (itv*(itv ** 2-1)))*100
-        return sum
+        for i in range(length):
+            # rciの数合わせ、最初からperiod-1分は0にする
+            if i < itv - 1:
+                rci[i] = 0
+            else:
+                # 価格順位取得
+                rank_price = pd.Series(
+                    seq)[i - itv + 1: i + 1].rank(
+                        method='min', ascending=False).values
+                # rci(numpy)を取得
+                rci[i] = (1 - (6 * sum((rank_period - rank_price)**2)) /
+                          (itv**3 - itv)) * 100
+        return rci[-1]
 
     def getQuote(self):
         res = [[] for i in range(len(self.pairs))]
@@ -50,7 +49,7 @@ class Quotes():
         self.quote = np.append(self.quote, res, axis=1)
         for i in range(len(self.pairs)):
             ema = ta.SMA(self.quote[i], timeperiod=PERIOD_MA)
-            rci = self.Rci(self.quote[i], PERIOD_RCI)
+            rci = '{:.4f}'.format(self.getRci(self.quote[i], PERIOD_RCI))
             src = '{:.4f}'.format(self.quote[i][-1])
             ma = '{:.4f}'.format(ema[-1])
             enq = '<' if(src <= ma) else '>'

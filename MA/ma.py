@@ -3,16 +3,18 @@
 
 import numpy as np
 import sys
-from time import sleep
 import requests
-import json
+# import json
 import NariPairs as na
 import talib as ta
 import tkinter as Tk
 
 url = "https://www.gaitameonline.com/rateaj/getrate"
-numbers = ['GBPNZD', 'CADJPY', 'GBPAUD', 'AUDJPY', 'AUDNZD',    'EURCAD', 'EURUSD', 'NZDJPY', 'USDCAD',    'EURGBP', 'GBPUSD',
-           'ZARJPY', 'EURCHF', 'CHFJPY', 'AUDUSD', 'USDCHF', 'EURJPY', 'GBPCHF', 'EURNZD', 'NZDUSD', 'USDJPY', 'EURAUD', 'AUDCHF', 'GBPJPY'
+numbers = ['GBPNZD', 'CADJPY', 'GBPAUD', 'AUDJPY', 'AUDNZD',
+           'EURCAD', 'EURUSD', 'NZDJPY', 'USDCAD', 'EURGBP',
+           'GBPUSD', 'ZARJPY', 'EURCHF', 'CHFJPY', 'AUDUSD',
+           'USDCHF', 'EURJPY', 'GBPCHF', 'EURNZD', 'NZDUSD',
+           'USDJPY', 'EURAUD', 'AUDCHF', 'GBPJPY'
            ]
 
 
