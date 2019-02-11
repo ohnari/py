@@ -8,8 +8,12 @@ ENV/
 */__pycache__/*
 c100/*.png
 
+on/common.py
+on/account.py
+
 #!.vscode/settings.json
 #!.vscode/tasks.json
 #!.vscode/launch.json
 #!.vscode/extensions.json
 !.gitignore
+
