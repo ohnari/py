@@ -3,36 +3,32 @@
 
 import numpy as np
 import sys
-import requests
-# import json
+import GaitameDataClient as gdc
 import NariPairs as na
 import talib as ta
 import tkinter as Tk
 
-url = "https://www.gaitameonline.com/rateaj/getrate"
-numbers = ['GBPNZD', 'CADJPY', 'GBPAUD', 'AUDJPY', 'AUDNZD',
-           'EURCAD', 'EURUSD', 'NZDJPY', 'USDCAD', 'EURGBP',
-           'GBPUSD', 'ZARJPY', 'EURCHF', 'CHFJPY', 'AUDUSD',
-           'USDCHF', 'EURJPY', 'GBPCHF', 'EURNZD', 'NZDUSD',
-           'USDJPY', 'EURAUD', 'AUDCHF', 'GBPJPY'
-           ]
+
+PERIOD_MA = 26
+INTERVAL = 60000
+PERIOD_RCI = 9
 
 
 class Quotes():
     def __init__(self, p):
         self.pairs = p
         self.quote = np.array([[] for i in range(len(p))])
+        self.gd = gdc.GaitameDataClient()
 
     def getQuote(self):
         res = [[] for i in range(len(self.pairs))]
         t = []
-        api_data = requests.get(url).json()
+        api_data = self.gd.getQuotes(self.pairs)
         for i, pair in enumerate(self.pairs):
-            res[i].append(
-                float(api_data['quotes'][numbers.index(pair)]['ask']))
+            res[i].append(api_data[pair]['ask'])
         self.quote = np.append(self.quote, res, axis=1)
         for i in range(len(self.pairs)):
-            ema = ta.EMA(self.quote[i], timeperiod=26)
+            ema = ta.SMA(self.quote[i], timeperiod=PERIOD_MA)
             src = '{:.4f}'.format(self.quote[i][-1])
             ma = '{:.4f}'.format(ema[-1])
             enq = '<' if(src <= ma) else '>'

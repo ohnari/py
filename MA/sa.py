@@ -10,7 +10,7 @@ import talib as ta
 import tkinter as Tk
 
 PERIOD_MA = 26
-INTERVAL = 10000
+INTERVAL = 60000
 PERIOD_RCI = 9
 
 
@@ -44,8 +44,9 @@ class Quotes():
     def getQuote(self):
         res = [[] for i in range(len(self.pairs))]
         t = []
-        for i, pair in enumerate(self.fx.getQuotes(self.pairs)):
-            res[i].append(float(pair['ask']))
+        api_data = self.fx.getQuotes(self.pairs)
+        for i, pair in enumerate(self.pairs):
+            res[i].append(api_data[pair]['ask'])
         self.quote = np.append(self.quote, res, axis=1)
         for i in range(len(self.pairs)):
             ema = ta.SMA(self.quote[i], timeperiod=PERIOD_MA)
