@@ -8,7 +8,6 @@ ENV/
 */__pycache__/*
 c100/*.png
 
-on/common.py
 on/account.py
 
 #!.vscode/settings.json
