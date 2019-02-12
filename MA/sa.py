@@ -20,23 +20,17 @@ class Quotes():
         self.quote = np.array([[] for i in range(len(p))])
         self.fx = fx.ForexDataClient()
 
-    def getRci(self, seq, itv):
-        # 時間帯の順位作成
+    def __getRci(self, seq, itv):
         rank_period = np.arange(itv, 0, -1)
-
         length = len(seq)
         rci = np.zeros(length)
-
         for i in range(length):
-            # rciの数合わせ、最初からperiod-1分は0にする
             if i < itv - 1:
                 rci[i] = 0
             else:
-                # 価格順位取得
                 rank_price = pd.Series(
                     seq)[i - itv + 1: i + 1].rank(
                         method='min', ascending=False).values
-                # rci(numpy)を取得
                 rci[i] = (1 - (6 * sum((rank_period - rank_price)**2)) /
                           (itv**3 - itv)) * 100
         return rci[-1]
@@ -50,7 +44,7 @@ class Quotes():
         self.quote = np.append(self.quote, res, axis=1)
         for i in range(len(self.pairs)):
             ema = ta.SMA(self.quote[i], timeperiod=PERIOD_MA)
-            rci = '{:.4f}'.format(self.getRci(self.quote[i], PERIOD_RCI))
+            rci = '{:.4f}'.format(self.__getRci(self.quote[i], PERIOD_RCI))
             src = '{:.4f}'.format(self.quote[i][-1])
             ma = '{:.4f}'.format(ema[-1])
             enq = '<' if(src <= ma) else '>'
