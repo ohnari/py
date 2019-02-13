@@ -1,33 +1,27 @@
-# from fx import account as ac
-# from fx import oanda_common as oc
+import json
+import sys
+
 import account as ac
 import common as oc
-from .pack import NariPairs as nari
-import sys
-from oandapyV20.exceptions import V20Error
-from oandapyV20.endpoints.pricing import PricingInfo
+from pack import NariPairs as nari
 from oandapyV20 import API
-import json
-
-
-'''
-https: // takilog.com/oandaapi-get-pricingstream/
-'''
+from oandapyV20.endpoints.pricing import PricingInfo
+from oandapyV20.exceptions import V20Error
 
 
 class OandaDataClient():
     def __init__(self, nari_code):
-        a = nari.NariPairs(nari_code)
-        self.api = API(access_token=ac.access_token,
-                       environment=oc.OANDA_ENV.PRACTICE)
-        params = {"instruments": ','.join(a.getOandaSymbolList())}
-        self.pinfo = PricingInfo(ac.account_ID, params)
-        self.code = a.getOandaSymbolList()
+        a = nari.getOandaSymbolList(nari_code)
+        self.__api = API(access_token=ac.access_token,
+                         environment=oc.OANDA_ENV.PRACTICE)
+        params = {"instruments": ','.join(a)}
+        self.__pinfo = PricingInfo(ac.account_ID, params)
+        self.code = nari.getSymbolList(nari_code)
 
     def getQuotes(self):
         try:
             quotes = {}
-            for i, r in enumerate(self.api.request(self.pinfo)['prices']):
+            for i, r in enumerate(self.__api.request(self.__pinfo)['prices']):
                 dic = dict(ask=float(r["asks"][0]["price"]),
                            bid=float(r["bids"][0]["price"]),
                            symbol=r['instrument'])
